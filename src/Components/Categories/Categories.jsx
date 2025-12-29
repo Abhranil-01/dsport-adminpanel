@@ -6,7 +6,8 @@ import CategoryForm from "../CategoryForm/CategoryForm.jsx";
 import { useGetCategoriesQuery } from "../../Services/fetchDataFromApi.js";
 import debounce from "../../Utils/debounce.js";
 import InputBox from "../InputBox/InputBox.jsx";
-import SearchBox from "../searchBox/SearchBox.jsx";
+import SearchBox from "../SearchBox/SearchBox";
+
 
 
 function Categories() {

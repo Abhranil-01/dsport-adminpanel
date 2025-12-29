@@ -1,0 +1,44 @@
+/* 
+
+#primary div {
+    margin: 0 20px;
+    position: relative;
+}
+
+#primary div button {
+    text-decoration: none;
+    display: block;
+    line-height: 1;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    font-size: 18px;
+
+    background-image: linear-gradient(to right, var(black), var(black) 50%,black 50%);
+    background-size: 200% 100%;
+    background-position: -100%;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+#primary div button::before {
+    display: block;
+    content: '';
+    width: 0;
+    height: 3px;
+    bottom: -3px;
+    left: 0;
+    z-index: 0;
+    position: absolute;
+    background: rgb(127, 9, 182);
+    transition: all 0.3s ease-in-out;
+}
+
+#primary div button:hover {
+    background-position: 0%;
+}
+
+#primary div button:hover::before {
+    width: 100%;
+} */

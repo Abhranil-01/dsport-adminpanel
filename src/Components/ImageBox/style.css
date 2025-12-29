@@ -1,0 +1,27 @@
+.swiper-slide{
+    width: 100% !important;
+     pointer-events: auto;
+    position: relative !important;
+    border:2px solid #e0e0e0 !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+   
+
+}
+
+.swiper-pagination-bullet{
+background-color: #fbfafc;
+}
+.swiper-button-next, .swiper-button-prev{
+  --swiper-navigation-size: 25px;
+    --swiper-navigation-color: #faf9f9;
+}
+/* --swiper-pagination-color": "#FFBA08",
+  "--swiper-pagination-bullet-inactive-color": "#999999",
+  "--swiper-pagination-bullet-inactive-opacity": "1",
+  "--swiper-pagination-bullet-size": "16px",
+  "--swiper-pagination-bullet-horizontal-gap": "6px" */
+/* .swiper{
+    border: 2px solid #fa0808 !important;
+} */

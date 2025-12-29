@@ -53,6 +53,9 @@ function Sidebar() {
 
   const handleLogout = async () => {
     try {
+      localStorage.removeItem("adminAccessToken");
+      localStorage.removeItem("adminRefreshToken");
+      localStorage.removeItem("admin_meta");
       await adminLogout().unwrap();
       navigate("/admin/login");
     } catch (error) {

@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from "react";
 import debounce from "../../Utils/debounce.js";
 
-import SearchBox from "../searchBox/SearchBox.jsx";
 import SelectBox from "../SelectBox/SelectBox.jsx";
 import OrderTable from "../OrderTable/OrderTable.jsx";
 import OrderViewCard from "../OrderViewCard/OrderViewCard.jsx";
 
 import { useGetAllOrdersQuery } from "../../Services/fetchDataFromApi.js";
 import { useOrderSocket } from "../../hooks/useOrderSocket.js";
+import SearchBox from "../SearchBox/SearchBox.jsx";
 
 function Orders() {
   useOrderSocket();

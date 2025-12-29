@@ -8,7 +8,6 @@ import {
 } from "../../Services/fetchDataFromApi.js";
 import debounce from "../../Utils/debounce.js";
 import Dropdown from "../Dropdown/Dropdown.jsx";
-import SearchBox from "../searchBox/SearchBox.jsx";
 import SelectBox from "../SelectBox/SelectBox.jsx";
 import ProductTable from "../ProductTable/ProductTable.jsx";
 import ProductForm from "../ProductForm/ProductForm.jsx";

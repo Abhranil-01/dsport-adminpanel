@@ -1,6 +1,7 @@
 import React from 'react'
 import {Outlet} from 'react-router-dom'
-import Sidebar from '../Components/SideBar/Sidebar'
+import Sidebar from './../Components/Sidebar/Sidebar';
+
 
 
 

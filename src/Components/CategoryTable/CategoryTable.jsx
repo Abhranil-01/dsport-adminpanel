@@ -9,8 +9,8 @@ import {
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import Popup from "../Popup/Popup";
 import SpinLoader from "../SpinLoader/SpinLoader";
-import LoaderBox from "../loaderBox/LoaderBox.jsx";
 import TableSkeleton from "../Skeleton/TableSkeleton/TableSkeleton.jsx";
+import LoaderBox from "../LoaderBox/LoaderBox.jsx"
 
 function CategoryTable({ data, error, isLoading }) {
   const [showForm, setShowForm] = useState(false);

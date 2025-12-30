@@ -11,7 +11,7 @@ import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import SubCategoryViewCard from "../SubcategoryViewCard/SubCategoryViewCard";
 import TableSkeleton from "../Skeleton/TableSkeleton/TableSkeleton.jsx";
 import Popup from "../Popup/Popup.jsx";
-import LoaderBox from "../loaderBox/LoaderBox.jsx";
+import LoaderBox from "../LoaderBox/LoaderBox.jsx";
 
 function SubCategoryTable({ data, error, isLoading }) {
   const [showForm, setShowForm] = useState(false);

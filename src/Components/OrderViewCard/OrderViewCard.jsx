@@ -9,7 +9,7 @@ import {
 import { toast } from "react-toastify";
 
 import SelectBox from "../SelectBox/SelectBox";
-import LoaderBox from "../loaderBox/LoaderBox";
+import LoaderBox from "../LoaderBox/LoaderBox";
 
 import {
   useGetOrderByIdQuery,

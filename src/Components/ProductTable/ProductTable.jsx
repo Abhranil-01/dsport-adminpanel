@@ -11,7 +11,7 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import TableSkeleton from "../Skeleton/TableSkeleton/TableSkeleton.jsx";
 import Popup from "../Popup/Popup.jsx";
-import LoaderBox from "../loaderBox/LoaderBox.jsx";
+import LoaderBox from "../LoaderBox/LoaderBox.jsx";
 import ProductViewCard from "../ProductViewCard/ProductViewCard.jsx";
 
 function ProductTable({ data, error, isLoading }) {

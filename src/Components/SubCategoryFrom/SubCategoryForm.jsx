@@ -53,11 +53,12 @@ const handleDeleteImage = (image) => {
       formData.append("subCategoryName", subCategory.subCategoryName);
       formData.append("categoryId", subCategory.categoryId);
 
-      imagesWithId.forEach(({ file }) => {
-        if (file) {
-          formData.append("subCategoryImage", file);
-        }
-      });
+const imageFile = imagesWithId.find(img => img.file)?.file;
+
+if (imageFile) {
+  formData.append("subCategoryImage", imageFile);
+}
+
 
       await createSubCategory(formData).unwrap();
 

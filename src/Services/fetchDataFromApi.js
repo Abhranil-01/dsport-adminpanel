@@ -6,15 +6,15 @@ export const fetchDataFromApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL,
     credentials: "include", // HttpOnly cookies
-     prepareHeaders: (headers) => {
-    const token = localStorage.getItem("adminAccessToken");
+  //    prepareHeaders: (headers) => {
+  //   const token = localStorage.getItem("adminAccessToken");
 
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
+  //   if (token) {
+  //     headers.set("Authorization", `Bearer ${token}`);
+  //   }
 
-    return headers;
-  },
+  //   return headers;
+  // },
   }),
 
   tagTypes: [

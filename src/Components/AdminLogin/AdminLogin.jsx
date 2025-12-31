@@ -40,8 +40,8 @@ function AdminLogin() {
       const res = await adminLogin(form).unwrap();
       const admin = res.data;
 
-localStorage.setItem("adminRefreshToken", admin.refreshToken );
-localStorage.setItem("adminAccessToken", admin.accessToken );
+// localStorage.setItem("adminRefreshToken", admin.refreshToken );
+// localStorage.setItem("adminAccessToken", admin.accessToken );
       localStorage.setItem(
         "admin_meta",
         JSON.stringify({

@@ -14,7 +14,7 @@ import SelectBox from "../SelectBox/SelectBox";
 function SubCategoryViewCard({ setShowForm, subCategoryId }) {
   const [editSubCategory, setEditSubCategory] = useState(false);
   const [imagesWithId, setImagesWithId] = useState([]);
-  const [deletedImageIds, setDeletedImageIds] = useState([]);
+  const [deletedBackendImageId, setDeletedBackendImageId] = useState(null);
   const [loader, setLoader] = useState(false);
 
   const [subCategoryName, setSubCategoryName] = useState("");
@@ -24,7 +24,7 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
   const inputRef = useRef(null);
   const selectRef = useRef(null);
 
-  /* ===================== API ===================== */
+  /* ================= API ================= */
   const { data, error, isLoading } = useGetSubCategoryByIdQuery(subCategoryId, {
     skip: !subCategoryId,
   });
@@ -32,7 +32,7 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
   const { data: categoriesData } = useGetCategoriesQuery();
   const [updateSubCategory] = useUpdateSubCategoryMutation();
 
-  /* ===================== SET INITIAL DATA ===================== */
+  /* ================= SET INITIAL DATA ================= */
   useEffect(() => {
     if (!data?.data) return;
 
@@ -40,42 +40,42 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
 
     setSubCategoryName(subCat.subCategoryName || "");
 
-    const backendImages =
-      subCat.image
-        ?.filter((img) => !deletedImageIds.includes(img._id))
-        .map((img) => ({
-          _id: img._id,
-          url: img.url,
-          type: "backend",
-        })) || [];
+    const backendImage =
+      subCat.image?.[0]
+        ? [
+            {
+              _id: subCat.image[0]._id,
+              url: subCat.image[0].url,
+              type: "backend",
+            },
+          ]
+        : [];
 
-    setImagesWithId(backendImages);
+    setImagesWithId(backendImage);
 
     const catId = subCat.category?.[0]?._id || "";
     setChoseCategory(catId);
     setOriginalCategoryId(catId);
-  }, [data, deletedImageIds]);
+  }, [data]);
 
-  /* ===================== HANDLERS ===================== */
+  /* ================= HANDLERS ================= */
   const handleSubCategoryNameChange = useCallback((e) => {
     setSubCategoryName(e.target.value);
   }, []);
 
   const handleAddImages = (newImages) => {
-    setImagesWithId((prev) => [...prev, ...newImages]);
+    // only allow one image
+    setImagesWithId(newImages.slice(0, 1));
   };
 
   const handleDeleteImage = (image) => {
     if (image.type === "backend") {
-      setDeletedImageIds((prev) => [...prev, image._id]);
+      setDeletedBackendImageId(image._id);
     }
-
-    setImagesWithId((prev) =>
-      prev.filter((img) => img._id !== image._id)
-    );
+    setImagesWithId([]);
   };
 
-  /* ===================== UPDATE ===================== */
+  /* ================= UPDATE ================= */
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoader(true);
@@ -103,17 +103,15 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
     formData.append("subCategoryName", subCategoryName);
     formData.append("categoryId", finalCategoryId);
 
-    /* deleted backend images */
-    deletedImageIds.forEach((id) => {
-      formData.append("deletedImageIds[]", id);
-    });
+    // backend image delete
+    if (deletedBackendImageId) {
+      formData.append("subCategoryImageId", deletedBackendImageId);
+    }
 
-    /* new local images */
-    imagesWithId.forEach((img) => {
-      if (img.file) {
-        formData.append("subCategoryImage", img.file);
-      }
-    });
+    // new image upload
+    if (imagesWithId[0]?.file) {
+      formData.append("subCategoryImage", imagesWithId[0].file);
+    }
 
     try {
       await updateSubCategory({
@@ -130,40 +128,30 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
     }
   };
 
-  /* ===================== UI ===================== */
+  /* ================= UI ================= */
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full bg-opacity-50 z-50"
+      className="fixed top-0 left-0 w-full h-full z-50"
       style={{ background: "rgba(36,35,35,0.3)" }}
     >
-      <div className="fixed left-[24%] top-[18%] bg-white dark:bg-gray-900 shadow-lg rounded-lg w-[64vw] h-[70%] px-5">
-        {/* Header */}
+      <div className="fixed left-[24%] top-[18%] bg-gray-900 shadow-lg rounded-lg w-[64vw] h-[70%] px-5">
         <div className="flex justify-between items-center py-4 font-bold">
           <span>Update Subcategory Details</span>
-          <span
-            className="cursor-pointer"
-            onClick={() => setShowForm(false)}
-          >
+          <span className="cursor-pointer" onClick={() => setShowForm(false)}>
             <FontAwesomeIcon icon={faX} />
           </span>
         </div>
 
-        <div className="w-full h-[80%] border-2 rounded px-7 py-5">
-          {isLoading && (
-            <div className="flex justify-center items-center h-full">
-              Loading...
-            </div>
-          )}
-
+        <div className="w-full h-[80%] border-2 border-white rounded px-7 py-5">
+          {isLoading && <div className="text-center">Loading...</div>}
           {error && (
-            <div className="flex justify-center items-center h-full text-red-500">
+            <div className="text-center text-red-500">
               Something went wrong
             </div>
           )}
 
           {!isLoading && !error && data?.data && (
             <div className="h-full flex gap-6">
-              {/* Image */}
               <div className="w-1/2 flex items-center justify-center">
                 <ImageBox
                   images={imagesWithId}
@@ -174,13 +162,10 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
                 />
               </div>
 
-              {/* Form */}
               <div className="w-1/2 flex flex-col gap-6 justify-center">
                 <InputBox
                   label="Subcategory Name"
                   placeholder="Like 'Footballs'"
-                  type="text"
-                  ref={inputRef}
                   value={subCategoryName}
                   onChange={handleSubCategoryNameChange}
                   readOnly={!editSubCategory}
@@ -188,10 +173,8 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
 
                 <SelectBox
                   label="Enter Category"
-                  placeholder="Select a category"
                   data={categoriesData?.data?.data || []}
                   value={choseCategory}
-                  ref={selectRef}
                   readOnly={!editSubCategory}
                   onChange={(id) => setChoseCategory(id)}
                 />

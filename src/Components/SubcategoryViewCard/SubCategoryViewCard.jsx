@@ -36,7 +36,7 @@ const { data, error, isLoading } =
   const inputRef = useRef(null);
   const selectRef = useRef(null);
 useEffect(() => {
-  console.log("data changed:", data);
+  console.log("data changed:", data?.data);
 
   if (data?.data) {
     const subCat = data.data;

@@ -35,19 +35,17 @@ const { data, error, isLoading } =
 
   const inputRef = useRef(null);
   const selectRef = useRef(null);
-
- useEffect(() => {
-  console.log("data changed", data);
+useEffect(() => {
+  console.log("data changed:", data);
 
   if (data?.data) {
     const subCat = data.data;
-console.log(subCat,"uhfewihuf");
+    console.log("subCat:", subCat);
 
     setSubCategoryName(subCat.subCategoryName || "");
 
-    const filteredImages = subCat.image
-      ?.filter((img) => !deletedImageIds.includes(img._id))
-      .map((img) => ({
+    const filteredImages =
+      subCat.image?.map((img) => ({
         _id: img._id,
         url: img.url,
         type: "backend",
@@ -59,7 +57,7 @@ console.log(subCat,"uhfewihuf");
     setChoseCategory(catId);
     setOriginalCategoryId(catId);
   }
-}, [data, deletedImageIds]);
+}, [data]);
 
 
 

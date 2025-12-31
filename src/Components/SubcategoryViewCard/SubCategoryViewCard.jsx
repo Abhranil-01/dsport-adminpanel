@@ -36,25 +36,27 @@ const { data, error, isLoading } =
   const inputRef = useRef(null);
   const selectRef = useRef(null);
 
-  useEffect(() => {
-    if (data?.data?.[0]) {
-      const subCat = data.data[0];
-      setSubCategoryName(subCat.subCategoryName || "");
+ useEffect(() => {
+  if (data?.data) {
+    const subCat = data.data;
 
-      const filteredImages = subCat.image
-        .filter((img) => !deletedImageIds.includes(img._id))
-        .map((img) => ({
-          _id: img._id,
-          url: img.url,
-        }));
+    setSubCategoryName(subCat.subCategoryName || "");
 
-      setImagesWithId(filteredImages);
+    const filteredImages = subCat.image
+      ?.filter((img) => !deletedImageIds.includes(img._id))
+      .map((img) => ({
+        _id: img._id,
+        url: img.url,
+        type: "backend",
+      })) || [];
 
-      const catId = subCat.category?.[0]?._id || "";
-      setChoseCategory(catId);
-      setOriginalCategoryId(catId);
-    }
-  }, [data, deletedImageIds]);
+    setImagesWithId(filteredImages);
+
+    const catId = subCat.category?.[0]?._id || "";
+    setChoseCategory(catId);
+    setOriginalCategoryId(catId);
+  }
+}, [data, deletedImageIds]);
 
 
 

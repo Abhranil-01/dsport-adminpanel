@@ -22,9 +22,14 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
   const [originalCategoryId, setOriginalCategoryId] = useState("");
 console.log("huhuh",subCategoryId);
 
-  const { data, error, isLoading } = useGetSubCategoryByIdQuery( subCategoryId );
+const { data, error, isLoading } =
+  useGetSubCategoryByIdQuery(subCategoryId, {
+    skip: !subCategoryId,
+  });
+
   const { data: categoriesData } = useGetCategoriesQuery();
-  console.log(categoriesData);
+  console.log(data);
+  
   
   const [updateSubCategory] = useUpdateSubCategoryMutation();
 

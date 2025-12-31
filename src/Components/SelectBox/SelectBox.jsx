@@ -12,6 +12,7 @@ function SelectBox({
   data = [],
 }) {
 
+  console.log(data,"fewigfyfe");
   
   return (
     <div className="min-w-[180px]">
@@ -58,7 +59,7 @@ function SelectBox({
             return (
               <option key={item._id} value={item._id}>
                 {item.categoryName ||
-                  `${item.subCategoryName} (${item.category[0]?.categoryName})`}
+                  `${item.subCategoryName} (${item?.category[0]?.categoryName})`}
               </option>
             );
           })

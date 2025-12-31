@@ -4,7 +4,7 @@ export const fetchDataFromApi = createApi({
   reducerPath: "api",
 
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
+    baseUrl: import.meta.env.VITE_BASE_URL + "/admin",
     credentials: "include", // HttpOnly cookies
   //    prepareHeaders: (headers) => {
   //   const token = localStorage.getItem("adminAccessToken");

@@ -37,6 +37,8 @@ const { data, error, isLoading } =
   const selectRef = useRef(null);
 
  useEffect(() => {
+  console.log(data.subCategoryName );
+
   if (data?.data) {
     const subCat = data.data;
 console.log(subCat,"uhfewihuf");

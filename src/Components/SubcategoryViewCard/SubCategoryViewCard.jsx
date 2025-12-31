@@ -39,6 +39,7 @@ const { data, error, isLoading } =
  useEffect(() => {
   if (data?.data) {
     const subCat = data.data;
+console.log(subCat,"uhfewihuf");
 
     setSubCategoryName(subCat.subCategoryName || "");
 

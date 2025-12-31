@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputBox from "../InputBox/InputBox";
@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 function SubCategoryViewCard({ setShowForm, subCategoryId }) {
   const [editSubCategory, setEditSubCategory] = useState(false);
   const [imagesWithId, setImagesWithId] = useState([]);
-  const [deletedBackendImageId, setDeletedBackendImageId] = useState(null);
   const [subCategoryName, setSubCategoryName] = useState("");
   const [choseCategory, setChoseCategory] = useState("");
   const [originalCategoryId, setOriginalCategoryId] = useState("");
@@ -55,22 +54,13 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
   }, [data]);
 
   /* ================= HANDLERS ================= */
+
+  // Replace image (backend auto-handles deletion)
   const handleAddImages = (newImages) => {
-    const backendImage = imagesWithId.find(
-      (img) => img.type === "backend"
-    );
-
-    if (backendImage) {
-      setDeletedBackendImageId(backendImage._id);
-    }
-
     setImagesWithId(newImages.slice(0, 1));
   };
 
-  const handleDeleteImage = (image) => {
-    if (image.type === "backend") {
-      setDeletedBackendImageId(image._id);
-    }
+  const handleDeleteImage = () => {
     setImagesWithId([]);
   };
 
@@ -94,10 +84,7 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
     formData.append("subCategoryName", subCategoryName);
     formData.append("categoryId", choseCategory || originalCategoryId);
 
-    if (deletedBackendImageId) {
-      formData.append("subCategoryImageId", deletedBackendImageId);
-    }
-
+    // only send image if user selected a new one
     if (imagesWithId[0]?.file) {
       formData.append("subCategoryImage", imagesWithId[0].file);
     }

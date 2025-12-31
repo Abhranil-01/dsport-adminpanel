@@ -30,7 +30,7 @@ function App() {
         <Routes>
 
           {/* 🔓 PUBLIC ROUTE */}
-          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/login" element={<AdminLogin />} />
 
           {/* 🔐 ADMIN PROTECTED ROUTES */}
           <Route element={<AdminAuthGuard />}>

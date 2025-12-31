@@ -57,7 +57,7 @@ function Sidebar() {
       // localStorage.removeItem("adminRefreshToken");
       localStorage.removeItem("admin_meta");
       await adminLogout().unwrap();
-      navigate("/admin/login");
+      navigate("/login");
     } catch (error) {
       console.error("Logout failed", error);
     }

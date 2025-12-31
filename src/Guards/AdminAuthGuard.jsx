@@ -16,7 +16,7 @@ console.log("profile",data);
 
   // ❌ Not logged in
   if (isError || !data?.data) {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;

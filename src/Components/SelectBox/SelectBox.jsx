@@ -11,6 +11,8 @@ function SelectBox({
   autoFocus = false,
   data = [],
 }) {
+
+  
   return (
     <div className="min-w-[180px]">
       {label && (
@@ -56,7 +58,7 @@ function SelectBox({
             return (
               <option key={item._id} value={item._id}>
                 {item.categoryName ||
-                  `${item.subCategoryName} (${item.category?.[0]?.categoryName})`}
+                  `${item.subCategoryName} (${item.category[0]?.categoryName})`}
               </option>
             );
           })

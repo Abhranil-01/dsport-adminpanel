@@ -40,16 +40,15 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
 
     setSubCategoryName(subCat.subCategoryName || "");
 
-    const backendImage =
-      subCat.image?.[0]
-        ? [
-            {
-              _id: subCat.image[0]._id,
-              url: subCat.image[0].url,
-              type: "backend",
-            },
-          ]
-        : [];
+    const backendImage = subCat.image?.[0]
+      ? [
+          {
+            _id: subCat.image[0]._id,
+            url: subCat.image[0].url,
+            type: "backend",
+          },
+        ]
+      : [];
 
     setImagesWithId(backendImage);
 
@@ -116,7 +115,7 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
     try {
       await updateSubCategory({
         id: subCategoryId,
-        subCategory: formData,
+        formData,
       }).unwrap();
 
       toast.success("Subcategory updated successfully");
@@ -145,9 +144,7 @@ function SubCategoryViewCard({ setShowForm, subCategoryId }) {
         <div className="w-full h-[80%] border-2 border-white rounded px-7 py-5">
           {isLoading && <div className="text-center">Loading...</div>}
           {error && (
-            <div className="text-center text-red-500">
-              Something went wrong
-            </div>
+            <div className="text-center text-red-500">Something went wrong</div>
           )}
 
           {!isLoading && !error && data?.data && (

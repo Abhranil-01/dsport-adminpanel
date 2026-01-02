@@ -63,27 +63,27 @@ function SubCategoryTable({ data, error, isLoading }) {
 
       <div className="  h-[70vh] w-full border-2 border-gray-400 overflow-y-scroll relative  shadow-md sm:rounded-lg flex-col items-center justify-center ">
         <table className="w-full  text-sm  text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-white uppercase bg-[#612bc5] ">
+          <thead className="text-xs text-white uppercase bg-[#612bc5] ">
             <tr>
-              <th scope="col" class="p-2">
-                {/* <div class="flex items-center">
+              {/* <th scope="col" className="p-2">
+                <div className="flex items-center">
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label for="checkbox-all-search" class="sr-only">
+                  <label for="checkbox-all-search" className="sr-only">
                     checkbox
                   </label>
-                </div> */}
-              </th>
-              <th scope="col" class=" px-5">
+                </div>
+              </th> */}
+              <th scope="col" className=" px-5 py-3">
                 Category
               </th>
-              <th scope="col">Name</th>
-              <th scope="col">Image</th>
+              <th scope="col" className=" px-5 py-3">Name</th>
+              <th scope="col" className=" px-5 py-3">Image</th>
 
-              <th scope="col" class="px-5 ">
+              <th scope="col" className="px-5 py-3">
                 Action
               </th>
             </tr>
@@ -96,24 +96,24 @@ function SubCategoryTable({ data, error, isLoading }) {
               ))}
             {data?.data?.subCategories?.length !== 0 &&
               data?.data?.subCategories.map((data) => (
-                <tr class="bg-gray-200 font-bold border-b dark:bg-gray-800 dark:border-gray-700 border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td class="w-4 p-2 ">
-                    {/* <div class="flex items-center">
+                <tr className="bg-gray-200 font-bold border-b dark:bg-gray-800 dark:border-gray-700 border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <td className="w-4 p-2 ">
+                    {/* <div className="flex items-center">
                       <input
                         id="checkbox-table-search-1"
                         type="checkbox"
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label for="checkbox-table-search-1" class="sr-only">
+                      <label for="checkbox-table-search-1" className="sr-only">
                         checkbox
                       </label>
                     </div> */}
                   </td>
-                  <td class="px-5 py-1">{data.category.categoryName}</td>
-                  <td class="px-5 py-1">{data.subCategoryName}</td>
-                  <td class="px-5 py-1 flex items-center justify-center ">
+                  <td className="px-5 py-1">{data.category.categoryName}</td>
+                  <td className="px-5 py-1">{data.subCategoryName}</td>
+                  <td className="px-5 py-1 flex items-center justify-center ">
                     <img
-                      class="w-7 h-7 rounded-full"
+                      className="w-7 h-7 rounded-full"
                       src={data.image[0]?.url}
                       alt={data.subCategoryName}
                     />

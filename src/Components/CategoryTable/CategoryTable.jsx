@@ -62,8 +62,8 @@ function CategoryTable({ data, error, isLoading }) {
         <table className="w-full  text-sm  text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-white uppercase bg-[#612bc5] sticky">
             <tr>
-              <th scope="col" class="px-2 py-3">
-                {/* <div class="flex items-center">
+              {/* <th scope="col" class="px-2 py-3">
+                <div class="flex items-center">
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
@@ -72,8 +72,8 @@ function CategoryTable({ data, error, isLoading }) {
                   <label for="checkbox-all-search" class="sr-only">
                     checkbox
                   </label>
-                </div> */}
-              </th>
+                </div>
+              </th> */}
               <th scope="col" class="px-6 py-3">
                 Name
               </th>
@@ -94,8 +94,8 @@ function CategoryTable({ data, error, isLoading }) {
             {data?.data?.data?.length !== 0 &&
               data?.data?.data?.map((data) => (
                 <tr class="bg-gray-200 font-bold border-b dark:bg-gray-800 dark:border-gray-700 border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td class="w-4 p-2 ">
-                    {/* <div class="flex items-center">
+                  {/* <td class="w-4 p-2 ">
+                    <div class="flex items-center">
                       <input
                         id="checkbox-table-search-1"
                         type="checkbox"
@@ -104,8 +104,8 @@ function CategoryTable({ data, error, isLoading }) {
                       <label for="checkbox-table-search-1" class="sr-only">
                         checkbox
                       </label>
-                    </div> */}
-                  </td>
+                    </div>
+                  </td> */}
                   <td class="px-5 py-1">{data.categoryName}</td>
                   <td class="px-5 py-1 flex items-center justify-center ">
                     <img

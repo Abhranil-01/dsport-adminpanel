@@ -56,18 +56,15 @@ function ProductTable({ data, error, isLoading }) {
   return (
     <>
       {showForm && (
-        <ProductViewCard
-          setShowForm={setShowForm}
-          productId={productId}
-        />
+        <ProductViewCard setShowForm={setShowForm} productId={productId} />
       )}
 
       <div className="  h-[70vh] w-full border-2 border-gray-400 overflow-y-scroll   shadow-md sm:rounded-lg flex-col items-center justify-center ">
         <table className="w-full  text-sm  text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-white uppercase bg-[#612bc5] ">
             <tr>
-              <th scope="col" class="p-2">
-                {/* <div class="flex items-center">
+              {/* <th scope="col" class="p-2">
+                <div class="flex items-center">
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
@@ -76,18 +73,17 @@ function ProductTable({ data, error, isLoading }) {
                   <label for="checkbox-all-search" class="sr-only">
                     checkbox
                   </label>
-                </div> */}
-              </th>
-              <th scope="col" class=" px-5">
+                </div>
+              </th> */}
+              <th scope="col" class=" px-5 py-3">
                 Category
               </th>
-               <th scope="col" class=" px-5">
+              <th scope="col" class=" px-5 py-3">
                 SubCategory
               </th>
               <th scope="col">Name</th>
-             
 
-              <th scope="col" class="px-5 ">
+              <th scope="col" class="px-5 py-3 ">
                 Action
               </th>
             </tr>
@@ -113,8 +109,12 @@ function ProductTable({ data, error, isLoading }) {
                       </label>
                     </div> */}
                   </td>
-                  <td class="px-5 py-1">{data.subcategory[0]?.category[0]?.categoryName}</td>
-                  <td class="px-5 py-1">{data.subcategory[0]?.subCategoryName}</td>
+                  <td class="px-5 py-1">
+                    {data.subcategory[0]?.category[0]?.categoryName}
+                  </td>
+                  <td class="px-5 py-1">
+                    {data.subcategory[0]?.subCategoryName}
+                  </td>
                   <td class="px-5 py-1">{data.productName}</td>
                   {/* <td class="px-5 py-1 flex items-center justify-center ">
                     <img

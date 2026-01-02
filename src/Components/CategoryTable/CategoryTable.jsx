@@ -63,7 +63,7 @@ function CategoryTable({ data, error, isLoading }) {
           <thead className="text-xs text-white uppercase bg-[#612bc5] sticky">
             <tr>
               <th scope="col" class="px-2 py-3">
-                <div class="flex items-center">
+                {/* <div class="flex items-center">
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
@@ -72,7 +72,7 @@ function CategoryTable({ data, error, isLoading }) {
                   <label for="checkbox-all-search" class="sr-only">
                     checkbox
                   </label>
-                </div>
+                </div> */}
               </th>
               <th scope="col" class="px-6 py-3">
                 Name
@@ -95,7 +95,7 @@ function CategoryTable({ data, error, isLoading }) {
               data?.data?.data?.map((data) => (
                 <tr class="bg-gray-200 font-bold border-b dark:bg-gray-800 dark:border-gray-700 border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td class="w-4 p-2 ">
-                    <div class="flex items-center">
+                    {/* <div class="flex items-center">
                       <input
                         id="checkbox-table-search-1"
                         type="checkbox"
@@ -104,7 +104,7 @@ function CategoryTable({ data, error, isLoading }) {
                       <label for="checkbox-table-search-1" class="sr-only">
                         checkbox
                       </label>
-                    </div>
+                    </div> */}
                   </td>
                   <td class="px-5 py-1">{data.categoryName}</td>
                   <td class="px-5 py-1 flex items-center justify-center ">
@@ -150,14 +150,14 @@ function CategoryTable({ data, error, isLoading }) {
           </tbody>
         </table>
 
-        {data?.data?.categories?.length == 0 && (
+        {data?.data?.data?.length == 0 && (
           <div className=" h-[58vh] flex flex-col justify-center items-center ">
-            <img
+            {/* <img
               className="w-[50%] h-[40%] object-contain"
               src="\public\Images\undraw_no-data_ig65 .svg"
               alt="no data available"
-            />
-            <span className="text-gray-500">No Category Available</span>
+            /> */}
+            <span className="text-white">No Category Available</span>
           </div>
         )}
       </div>
@@ -174,6 +174,7 @@ function CategoryTable({ data, error, isLoading }) {
           {deletePopup.loader && <LoaderBox />}
         </div>
       )}
+
     </>
   );
 }

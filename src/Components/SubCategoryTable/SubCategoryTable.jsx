@@ -66,7 +66,7 @@ function SubCategoryTable({ data, error, isLoading }) {
           <thead class="text-xs text-white uppercase bg-[#612bc5] ">
             <tr>
               <th scope="col" class="p-2">
-                <div class="flex items-center">
+                {/* <div class="flex items-center">
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
@@ -75,7 +75,7 @@ function SubCategoryTable({ data, error, isLoading }) {
                   <label for="checkbox-all-search" class="sr-only">
                     checkbox
                   </label>
-                </div>
+                </div> */}
               </th>
               <th scope="col" class=" px-5">
                 Category
@@ -98,7 +98,7 @@ function SubCategoryTable({ data, error, isLoading }) {
               data?.data?.subCategories.map((data) => (
                 <tr class="bg-gray-200 font-bold border-b dark:bg-gray-800 dark:border-gray-700 border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td class="w-4 p-2 ">
-                    <div class="flex items-center">
+                    {/* <div class="flex items-center">
                       <input
                         id="checkbox-table-search-1"
                         type="checkbox"
@@ -107,7 +107,7 @@ function SubCategoryTable({ data, error, isLoading }) {
                       <label for="checkbox-table-search-1" class="sr-only">
                         checkbox
                       </label>
-                    </div>
+                    </div> */}
                   </td>
                   <td class="px-5 py-1">{data.category.categoryName}</td>
                   <td class="px-5 py-1">{data.subCategoryName}</td>
@@ -153,12 +153,12 @@ function SubCategoryTable({ data, error, isLoading }) {
         </table>
         {data?.data?.subCategories?.length == 0 && (
           <div className=" h-[58vh] flex flex-col justify-center items-center ">
-            <img
+            {/* <img
               className="w-[50%] h-[40%] object-contain"
               src="\public\Images\undraw_no-data_ig65 .svg"
               alt="no data available"
-            />
-            <span className="text-gray-500">No Subcategories Available</span>
+            /> */}
+            <span className="text-white">No Subcategories Available</span>
           </div>
         )}
       </div>

@@ -14,169 +14,145 @@ import LoaderBox from "../LoaderBox/LoaderBox.jsx"
 
 function CategoryTable({ data, error, isLoading }) {
   const [showForm, setShowForm] = useState(false);
+  const [categoryId, setCategoryId] = useState("");
+
   const [deletePopup, setDeletePopup] = useState({
     isDelete: false,
     categoryName: "",
     categoryId: "",
     loader: false,
   });
-  console.log(data?.data, error);
+
   const [deleteCategory] = useDeleteCategoryMutation();
 
-  const [categoryId, setCategoryId] = useState("");
-  console.log("delete", deletePopup);
-
   const handelDeleteCategory = async (id) => {
-    // Step 1: Show loader
-    setDeletePopup({ loader: true, isDelete: false });
+    setDeletePopup((prev) => ({ ...prev, loader: true, isDelete: false }));
 
-    // Step 2: Wait 5 seconds before performing deletion
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((r) => setTimeout(r, 3000));
 
-    if (id) {
-      const res = await deleteCategory(id);
+    const res = await deleteCategory(id);
 
-      // Step 3: Wait additional 1.5 seconds to keep loader
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((r) => setTimeout(r, 1500));
 
-      // Step 4: Hide loader
-      setDeletePopup({ loader: false });
+    setDeletePopup((prev) => ({ ...prev, loader: false }));
 
-      // Step 5: Show toast after loader disappears
-      if (res.error) {
-        toast.error(res.error?.data?.errors || "Something went wrong");
-      } else {
-        toast.success("Category deleted successfully");
-        console.log(res);
-      }
+    if (res.error) {
+      toast.error(res.error?.data?.errors || "Something went wrong");
+    } else {
+      toast.success("Category deleted successfully");
     }
   };
 
   return (
     <>
       {showForm && (
-        <CategoryViewCard setShowForm={setShowForm} categoryId={categoryId} />
+        <CategoryViewCard
+          setShowForm={setShowForm}
+          categoryId={categoryId}
+        />
       )}
 
-      <div className="  h-[70vh] w-full border-2 border-gray-400 overflow-y-scroll  relative  shadow-md sm:rounded-lg flex-col items-center justify-center ">
-        <table className="w-full  text-sm  text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-white uppercase bg-[#612bc5] sticky">
+      {/* ================= TABLE ================= */}
+      <div className="relative h-[70vh] w-full overflow-y-auto rounded-lg border border-gray-400 shadow-md">
+        <table className="w-full text-sm text-gray-600 dark:text-gray-300">
+          <thead className="sticky top-0 z-10 bg-[#612bc5] text-xs uppercase text-white">
             <tr>
-              {/* <th scope="col" class="px-2 py-3">
-                <div class="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label for="checkbox-all-search" class="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th> */}
-              <th scope="col" class="px-6 py-3">
-                Name
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Image
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Action
-              </th>
+              <th className="px-6 py-3 text-left">Name</th>
+              <th className="px-6 py-3 text-center">Image</th>
+              <th className="px-6 py-3 text-center">Action</th>
             </tr>
           </thead>
 
-          <tbody className="text-center dark:text-white ">
+          <tbody className="divide-y divide-gray-300 dark:divide-gray-700 text-center dark:text-white">
+            {/* Loading */}
             {isLoading &&
-              Array.from({ length: 11 }).map((_, index) => (
-                <TableSkeleton key={index} colSpan={"4"} />
+              Array.from({ length: 10 }).map((_, index) => (
+                <TableSkeleton key={index} colSpan="3" />
               ))}
-            {data?.data?.data?.length !== 0 &&
-              data?.data?.data?.map((data) => (
-                <tr class="bg-gray-200 font-bold border-b dark:bg-gray-800 dark:border-gray-700 border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  {/* <td class="w-4 p-2 ">
-                    <div class="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label for="checkbox-table-search-1" class="sr-only">
-                        checkbox
-                      </label>
-                    </div>
-                  </td> */}
-                  <td class="px-5 py-1">{data.categoryName}</td>
-                  <td class="px-5 py-1 flex items-center justify-center ">
+
+            {/* Data */}
+            {data?.data?.data?.length > 0 &&
+              data.data.data.map((item) => (
+                <tr
+                  key={item._id}
+                  className="bg-gray-100 font-medium dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                >
+                  <td className="px-6 py-2 text-left font-semibold">
+                    {item.categoryName}
+                  </td>
+
+                  <td className="px-6 py-2 flex justify-center">
                     <img
-                      class="w-7 h-7 rounded-full"
-                      src={data.image[0]?.url}
-                      alt={data.categoryName}
-                      high
+                      src={item?.image?.[0]?.url || "/placeholder.png"}
+                      alt={item.categoryName}
+                      className="w-8 h-8 rounded-full object-cover border"
                     />
                   </td>
 
-                  <td className=" px-5 py-1">
-                    <div className="flex gap-5 justify-center cursor-pointer text-sm">
-                      <span className="text-blue-700 dark:text-blue-500">
+                  <td className="px-6 py-2">
+                    <div className="flex justify-center gap-4 text-base">
+                      {/* <button className="text-blue-600 hover:text-blue-800">
                         <FontAwesomeIcon icon={faEye} />
-                      </span>
-                      <span
-                        className="text-green-900 dark:text-green-500"
+                      </button> */}
+
+                      <button
+                        className="text-green-600 hover:text-green-800"
                         onClick={() => {
                           setShowForm(true);
-                          setCategoryId(data._id);
+                          setCategoryId(item._id);
                         }}
                       >
                         <FontAwesomeIcon icon={faPencil} />
-                      </span>
-                      {/* handelDeleteCategory(data._id)         */}
-                      <span
-                        className="text-red-900  dark:text-red-600"
+                      </button>
+
+                      <button
+                        className="text-red-600 hover:text-red-800"
                         onClick={() =>
                           setDeletePopup({
                             isDelete: true,
-                            categoryName: data.categoryName,
-                            categoryId: data._id,
+                            categoryName: item.categoryName,
+                            categoryId: item._id,
+                            loader: false,
                           })
                         }
                       >
                         <FontAwesomeIcon icon={faTrash} />
-                      </span>
+                      </button>
                     </div>
                   </td>
                 </tr>
               ))}
+
+            {/* Empty */}
+            {!isLoading && data?.data?.data?.length === 0 && (
+              <tr>
+                <td colSpan="3" className="h-[58vh]">
+                  <div className="flex h-full items-center justify-center text-gray-400 text-lg font-semibold">
+                    No Category Available 🚫
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
-
-        {data?.data?.data?.length == 0 && (
-          <div className=" h-[58vh] flex flex-col justify-center items-center ">
-            {/* <img
-              className="w-[50%] h-[40%] object-contain"
-              src="\public\Images\undraw_no-data_ig65 .svg"
-              alt="no data available"
-            /> */}
-            <span className="text-white">No Category Available</span>
-          </div>
-        )}
       </div>
+
+      {/* ================= POPUP ================= */}
       {(deletePopup.isDelete || deletePopup.loader) && (
-        <div className="w-full">
+        <>
           {deletePopup.isDelete && (
             <Popup
-              description={`Are you sure to delete category "${deletePopup.categoryName}"? Deleting this will also remove its subcategories and products.`}
-              categoryDetails={deletePopup}
+              description={`Are you sure you want to delete "${deletePopup.categoryName}"? This will also delete its subcategories and products.`}
               onClick={() => handelDeleteCategory(deletePopup.categoryId)}
               setDeletePopup={setDeletePopup}
             />
           )}
           {deletePopup.loader && <LoaderBox />}
-        </div>
+        </>
       )}
-
     </>
   );
 }
+
 
 export default CategoryTable;

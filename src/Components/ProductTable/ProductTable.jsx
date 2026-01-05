@@ -59,114 +59,94 @@ function ProductTable({ data, error, isLoading }) {
         <ProductViewCard setShowForm={setShowForm} productId={productId} />
       )}
 
-      <div className="  h-[70vh] w-full border-2 border-gray-400 overflow-y-scroll   shadow-md sm:rounded-lg flex-col items-center justify-center ">
-        <table className="w-full  text-sm  text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-white uppercase bg-[#612bc5] ">
-            <tr>
-              {/* <th scope="col" class="p-2">
-                <div class="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label for="checkbox-all-search" class="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th> */}
-              <th scope="col" class=" px-5 py-3">
-                Category
-              </th>
-              <th scope="col" class=" px-5 py-3">
-                SubCategory
-              </th>
-              <th scope="col">Name</th>
+    <div className="relative h-[70vh] w-full overflow-y-auto rounded-lg border border-gray-400 shadow-md">
+  <table className="w-full text-sm text-gray-600 dark:text-gray-300">
+    {/* ================= HEADER ================= */}
+    <thead className="sticky top-0 z-10 bg-[#612bc5] text-xs uppercase text-white">
+      <tr>
+        <th className="px-5 py-3 text-left">Category</th>
+        <th className="px-5 py-3 text-left">SubCategory</th>
+        <th className="px-5 py-3 text-left">Name</th>
+        <th className="px-5 py-3 text-center">Action</th>
+      </tr>
+    </thead>
 
-              <th scope="col" class="px-5 py-3 ">
-                Action
-              </th>
-            </tr>
-          </thead>
+    {/* ================= BODY ================= */}
+    <tbody className="divide-y divide-gray-300 dark:divide-gray-700 text-center dark:text-white">
+      {/* Loading */}
+      {isLoading &&
+        Array.from({ length: 10 }).map((_, index) => (
+          <TableSkeleton key={index} colSpan="4" />
+        ))}
 
-          <tbody className="text-center dark:text-white ">
-            {isLoading &&
-              Array.from({ length: 11 }).map((_, index) => (
-                <TableSkeleton key={index} colSpan={"5"} />
-              ))}
-            {data?.products?.length !== 0 &&
-              data?.products?.map((data) => (
-                <tr class="bg-gray-200 font-bold border-b dark:bg-gray-800 dark:border-gray-700 border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td class="w-4 p-2 ">
-                    {/* <div class="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label for="checkbox-table-search-1" class="sr-only">
-                        checkbox
-                      </label>
-                    </div> */}
-                  </td>
-                  <td class="px-5 py-1">
-                    {data.subcategory[0]?.category[0]?.categoryName}
-                  </td>
-                  <td class="px-5 py-1">
-                    {data.subcategory[0]?.subCategoryName}
-                  </td>
-                  <td class="px-5 py-1">{data.productName}</td>
-                  {/* <td class="px-5 py-1 flex items-center justify-center ">
-                    <img
-                      class="w-7 h-7 rounded-full"
-                      src={}
-                      alt={}
-                    />
-                  </td> */}
+      {/* Data */}
+      {data?.products?.length > 0 &&
+        data.products.map((item) => (
+          <tr
+            key={item._id}
+            className="bg-gray-100 font-medium dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          >
+            <td className="px-5 py-2 text-left">
+              {item.subcategory?.[0]?.category?.[0]?.categoryName || "—"}
+            </td>
 
-                  <td className=" px-5 py-1">
-                    <div className="flex gap-5 justify-center cursor-pointer text-sm">
-                      <span className="text-blue-700 dark:text-blue-500">
-                        <FontAwesomeIcon icon={faEye} />
-                      </span>
-                      <span
-                        className="text-green-900 dark:text-green-500"
-                        onClick={() => {
-                          setShowForm(true);
-                          setProductId(data._id);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faPencil} />
-                      </span>
-                      <span
-                        className="text-red-900  dark:text-red-600"
-                        onClick={() =>
-                          setDeletePopup({
-                            isDelete: true,
-                            ProductName: data.productName,
-                            productId: data._id,
-                          })
-                        }
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-        {data?.products?.length == 0 && (
-          <div className=" h-[58vh] flex flex-col justify-center items-center ">
-            {/* <img
-              className="w-[50%] h-[40%] object-contain"
-              src="\public\Images\undraw_no-data_ig65 .svg"
-              alt="no data available"
-            /> */}
-            <span className="text-white">No Products Available</span>
-          </div>
-        )}
-      </div>
+            <td className="px-5 py-2 text-left">
+              {item.subcategory?.[0]?.subCategoryName || "—"}
+            </td>
+
+            <td className="px-5 py-2 font-semibold text-left">
+              {item.productName}
+            </td>
+
+            <td className="px-5 py-2">
+              <div className="flex justify-center gap-4 text-base">
+                {/* <button className="text-blue-600 hover:text-blue-800">
+                  <FontAwesomeIcon icon={faEye} />
+                </button> */}
+
+                <button
+                  className="text-green-600 hover:text-green-800"
+                  onClick={() => {
+                    setShowForm(true);
+                    setProductId(item._id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faPencil} />
+                </button>
+
+                <button
+                  className="text-red-600 hover:text-red-800"
+                  onClick={() =>
+                    setDeletePopup({
+                      isDelete: true,
+                      ProductName: item.productName,
+                      productId: item._id,
+                    })
+                  }
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))}
+
+      {/* Empty State */}
+      {!isLoading && data?.products?.length === 0 && (
+        <tr>
+          <td colSpan="4" className="h-[58vh]">
+            <div className="flex h-full flex-col items-center justify-center text-gray-400">
+              <span className="text-lg font-semibold">
+                No Products Available 🚫
+              </span>
+            </div>
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
+
       {(deletePopup.isDelete || deletePopup.loader) && (
         <div className="w-full">
           {deletePopup.isDelete && (

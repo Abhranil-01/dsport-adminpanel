@@ -52,6 +52,8 @@ function SubCategoryTable({ data, error, isLoading }) {
       }
     }
   };
+  console.log(data?.data?.subCategories[0]?.category?.categoryName,"oihjoij");
+  
   return (
     <>
       {showForm && (
@@ -61,107 +63,98 @@ function SubCategoryTable({ data, error, isLoading }) {
         />
       )}
 
-      <div className="  h-[70vh] w-full border-2 border-gray-400 overflow-y-scroll relative  shadow-md sm:rounded-lg flex-col items-center justify-center ">
-        <table className="w-full  text-sm  text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-white uppercase bg-[#612bc5] ">
-            <tr>
-              {/* <th scope="col" className="p-2">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label for="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th> */}
-              <th scope="col" className=" px-5 py-3">
-                Category
-              </th>
-              <th scope="col" className=" px-5 py-3">Name</th>
-              <th scope="col" className=" px-5 py-3">Image</th>
+  <div className="relative h-[70vh] w-full overflow-y-auto rounded-lg border border-gray-400 shadow-md">
+  <table className="w-full text-sm text-gray-600 dark:text-gray-300">
+    {/* ================= HEADER ================= */}
+    <thead className="sticky top-0 z-10 bg-[#612bc5] text-xs uppercase text-white">
+      <tr>
+        <th className="px-5 py-3 text-left">Category</th>
+        <th className="px-5 py-3 text-left">Name</th>
+        <th className="px-5 py-3 text-center">Image</th>
+        <th className="px-5 py-3 text-center">Action</th>
+      </tr>
+    </thead>
 
-              <th scope="col" className="px-5 py-3">
-                Action
-              </th>
-            </tr>
-          </thead>
+    {/* ================= BODY ================= */}
+    <tbody className="divide-y divide-gray-300 dark:divide-gray-700">
+      {/* Loading */}
+      {isLoading &&
+        Array.from({ length: 10 }).map((_, index) => (
+          <TableSkeleton key={index} colSpan="4" />
+        ))}
 
-          <tbody className="text-center dark:text-white ">
-            {isLoading &&
-              Array.from({ length: 11 }).map((_, index) => (
-                <TableSkeleton key={index} colSpan={"5"} />
-              ))}
-            {data?.data?.subCategories?.length !== 0 &&
-              data?.data?.subCategories.map((data) => (
-                <tr className="bg-gray-200 font-bold border-b dark:bg-gray-800 dark:border-gray-700 border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td className="w-4 p-2 ">
-                    {/* <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label for="checkbox-table-search-1" className="sr-only">
-                        checkbox
-                      </label>
-                    </div> */}
-                  </td>
-                  <td className="px-5 py-1">{data.category.categoryName}</td>
-                  <td className="px-5 py-1">{data.subCategoryName}</td>
-                  <td className="px-5 py-1 flex items-center justify-center ">
-                    <img
-                      className="w-7 h-7 rounded-full"
-                      src={data.image[0]?.url}
-                      alt={data.subCategoryName}
-                    />
-                  </td>
+      {/* Data */}
+      {data?.data?.subCategories?.length > 0 &&
+        data.data.subCategories.map((item) => (
+          <tr
+            key={item._id}
+            className="bg-gray-100 font-medium dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          >
+            <td className="px-5 py-2">
+              {item?.category?.categoryName || "—"}
+            </td>
 
-                  <td className=" px-5 py-1">
-                    <div className="flex gap-5 justify-center cursor-pointer text-sm">
-                      <span className="text-blue-700 dark:text-blue-500">
-                        <FontAwesomeIcon icon={faEye} />
-                      </span>
-                      <span
-                        className="text-green-900 dark:text-green-500"
-                        onClick={() => {
-                          setShowForm(true);
-                          setSubCategoryId(data._id);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faPencil} />
-                      </span>
-                      <span
-                        className="text-red-900  dark:text-red-600"
-                        onClick={() =>
-                          setDeletePopup({
-                            isDelete: true,
-                            subCategoryName: data.subCategoryName,
-                            subCategoryId: data._id,
-                          })
-                        }
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-        {data?.data?.subCategories?.length == 0 && (
-          <div className=" h-[58vh] flex flex-col justify-center items-center ">
-            {/* <img
-              className="w-[50%] h-[40%] object-contain"
-              src="\public\Images\undraw_no-data_ig65 .svg"
-              alt="no data available"
-            /> */}
-            <span className="text-white">No Subcategories Available</span>
-          </div>
-        )}
-      </div>
+            <td className="px-5 py-2 font-semibold">
+              {item.subCategoryName}
+            </td>
+
+            <td className="px-5 py-2 flex justify-center">
+              <img
+                src={item?.image?.[0]?.url || "/placeholder.png"}
+                alt={item.subCategoryName}
+                className="w-8 h-8 rounded-full object-cover border"
+              />
+            </td>
+
+            <td className="px-5 py-2">
+              <div className="flex justify-center gap-4 text-base">
+                {/* <button className="text-blue-600 hover:text-blue-800">
+                  <FontAwesomeIcon icon={faEye} />
+                </button> */}
+
+                <button
+                  className="text-green-600 hover:text-green-800"
+                  onClick={() => {
+                    setShowForm(true);
+                    setSubCategoryId(item._id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faPencil} />
+                </button>
+
+                <button
+                  className="text-red-600 hover:text-red-800"
+                  onClick={() =>
+                    setDeletePopup({
+                      isDelete: true,
+                      subCategoryName: item.subCategoryName,
+                      subCategoryId: item._id,
+                    })
+                  }
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))}
+
+      {/* Empty State */}
+      {!isLoading && data?.data?.subCategories?.length === 0 && (
+        <tr>
+          <td colSpan="4" className="h-[58vh] text-center">
+            <div className="flex h-full flex-col items-center justify-center text-gray-400">
+              <span className="text-lg font-semibold">
+                No Subcategories Available 🚫
+              </span>
+            </div>
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
+
       {(deletePopup.isDelete || deletePopup.loader) && (
         <div className="w-full">
           {deletePopup.isDelete && (

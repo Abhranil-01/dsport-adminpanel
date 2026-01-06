@@ -85,14 +85,15 @@ function ProductForm({ setShowForm }) {
       const actualPrice = parseFloat(sizeItem.actualPrice) || 0;
       const offerPercentage = parseFloat(sizeItem.offerPercentage) || 0;
 
-      if (actualPrice && offerPercentage) {
-        sizeItem.offerPrice = (
-          actualPrice -
-          (actualPrice * offerPercentage) / 100
-        ).toFixed(2);
-      } else {
-        sizeItem.offerPrice = "";
-      }
+if (actualPrice && offerPercentage) {
+  const discountedPrice =
+    actualPrice - (actualPrice * offerPercentage) / 100;
+
+  sizeItem.offerPrice = Math.floor(discountedPrice); // ✅ rounded integer
+} else {
+  sizeItem.offerPrice = "";
+}
+
 
       newColors[colorIndex].sizes[sizeIndex] = sizeItem;
 

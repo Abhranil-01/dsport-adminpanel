@@ -122,32 +122,46 @@ function ProductViewCard({ setShowForm, productId }) {
     });
   }, []);
 
-  const handleSizeChange = useCallback((colorIndex, sizeIndex, e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
+const handleSizeChange = useCallback((colorIndex, sizeIndex, e) => {
+  const { name, value } = e.target;
 
-    const booleanValue =
-      name === "defaultsize" ? value === "true" || value === true : value;
+  const parsedValue =
+    name === "defaultsize" ? value === "true" || value === true : value;
 
-    setColors((prev) => {
-      const draft = [...prev];
-      if (name === "defaultsize" && booleanValue === true) {
-        draft[colorIndex].sizes = draft[colorIndex].sizes.map((s) => ({
-          ...s,
-          defaultsize: false,
-        }));
-      }
-      const sizeItem = { ...draft[colorIndex].sizes[sizeIndex], [name]: value };
-      const actualPrice = parseFloat(sizeItem.actualPrice) || 0;
-      const offerPercentage = parseFloat(sizeItem.offerPercentage) || 0;
-      sizeItem.offerPrice =
-        actualPrice && offerPercentage
-          ? (actualPrice - (actualPrice * offerPercentage) / 100).toFixed(2)
-          : "";
-      draft[colorIndex].sizes[sizeIndex] = sizeItem;
-      return draft;
-    });
-  }, []);
+  setColors((prev) => {
+    const draft = [...prev];
+
+    // ✅ Only one default size per color
+    if (name === "defaultsize" && parsedValue === true) {
+      draft[colorIndex].sizes = draft[colorIndex].sizes.map((s) => ({
+        ...s,
+        defaultsize: false,
+      }));
+    }
+
+    const sizeItem = {
+      ...draft[colorIndex].sizes[sizeIndex],
+      [name]: parsedValue,
+    };
+
+    const actualPrice = Number(sizeItem.actualPrice) || 0;
+    const offerPercentage = Number(sizeItem.offerPercentage) || 0;
+
+    // ✅ Rounded offer price (NO decimals)
+    if (actualPrice > 0 && offerPercentage > 0) {
+      const discounted =
+        actualPrice - (actualPrice * offerPercentage) / 100;
+
+      sizeItem.offerPrice = Math.floor(discounted); // 🔥 key change
+    } else {
+      sizeItem.offerPrice = "";
+    }
+
+    draft[colorIndex].sizes[sizeIndex] = sizeItem;
+    return draft;
+  });
+}, []);
+
 
   const handleImageUpload = useCallback((colorIndex, newFiles) => {
     setColors((prev) => {

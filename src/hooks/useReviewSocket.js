@@ -18,11 +18,12 @@ export const useReviewSocket = () => {
 
       if (!payload?.productcolorId) return;
 
-      dispatch(
-        fetchDataFromApi.util.invalidateTags([
-          { type: "Products", id: payload.productcolorId },
-        ])
-      );
+dispatch(
+  fetchDataFromApi.util.invalidateTags([
+    { type: "Reviews", id: payload.productcolorId },
+  ])
+);
+
     };
 
     socket.on("REVIEW_CREATED", onReviewEvent);

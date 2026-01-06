@@ -265,23 +265,31 @@ export const fetchDataFromApi = createApi({
       }),
       providesTags: ["Products"],
     }),
-    getReviewsColorWiseProducts: builder.query({
-      query: (params) => ({
-        url: "/colorwise-items",
-        params,
-      }),
-      providesTags: (result) =>
-        result
-          ? [{ type: "Reviews", id: "LIST" }]
-          : [{ type: "Reviews", id: "LIST" }],
-    }),
+getReviewsColorWiseProducts: builder.query({
+  query: (params) => ({
+    url: "/colorwise-items",
+    params,
+  }),
+  providesTags: (result) =>
+    result?.colorItems
+      ? [
+          { type: "Reviews", id: "LIST" },
+          ...result.colorItems.map((item) => ({
+            type: "Reviews",
+            id: item._id, // productcolorId
+          })),
+        ]
+      : [{ type: "Reviews", id: "LIST" }],
+}),
 
-   getColorWiseProductById: builder.query({
+
+getColorWiseProductById: builder.query({
   query: (id) => `/single-colorwise/${id}`,
   providesTags: (result, error, id) => [
-    { type: "Products", id },
+    { type: "Reviews", id }, // ✅ NOT Products
   ],
 }),
+
 
     /* ================= ORDERS ================= */
     getAllOrders: builder.query({

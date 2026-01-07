@@ -24,6 +24,7 @@ function OrderViewCard({ orderId, onClose }) {
 
   const [paymentStatus, setPaymentStatus] = useState("");
   const [deliveryStatus, setDeliveryStatus] = useState("");
+  console.log(order, "order data");
 
   useEffect(() => {
     if (order) {
@@ -44,7 +45,7 @@ function OrderViewCard({ orderId, onClose }) {
   const isLocked = isPaymentLocked && isDeliveryLocked;
 
   /* 🎯 Order states */
-  const isCancelled = order?.orderStatus === "CANCELLED";
+  const isCancelled = order?.orderStatus === "Cancelled";
   const isDelivered = order?.deliveryStatus === "Delivered";
   const isRefunded = order?.paymentStatus === "Refunded";
 
@@ -127,12 +128,24 @@ function OrderViewCard({ orderId, onClose }) {
 
         {/* 🔹 Order Summary */}
         <div className="grid grid-cols-2 gap-4 text-sm mb-6 border rounded-lg p-4">
-          <div><b>Order ID:</b> {order.orderId || order._id}</div>
-          <div><b>Date:</b> {new Date(order.createdAt).toLocaleString()}</div>
-          <div><b>Customer:</b> {order.user?.email}</div>
-          <div><b>Payment Mode:</b> {order.paymentMode}</div>
-          <div><b>Payment Status:</b> {order.paymentStatus}</div>
-          <div><b>Delivery Status:</b> {order.deliveryStatus}</div>
+          <div>
+            <b>Order ID:</b> {order.orderId || order._id}
+          </div>
+          <div>
+            <b>Date:</b> {new Date(order.createdAt).toLocaleString()}
+          </div>
+          <div>
+            <b>Customer:</b> {order.user?.email}
+          </div>
+          <div>
+            <b>Payment Mode:</b> {order.paymentMode}
+          </div>
+          <div>
+            <b>Payment Status:</b> {order.paymentStatus}
+          </div>
+          <div>
+            <b>Delivery Status:</b> {order.deliveryStatus}
+          </div>
           <div className="col-span-2 font-semibold">
             Total Amount: ₹{order.totalPayableAmount.toLocaleString("en-IN")}
           </div>
@@ -145,6 +158,72 @@ function OrderViewCard({ orderId, onClose }) {
             record and audit purposes only.
           </div>
         )}
+        {/* 🔹 Order Items */}
+        <div className="mb-6">
+          <h3 className="font-semibold text-base mb-4">Order Items</h3>
+
+          <div className="space-y-4">
+            {order?.orderItems?.map((item) => {
+              const productColor = item.productColorItem?.[0];
+              const product = productColor?.product?.[0];
+              const coverImage = productColor?.coverImages?.[0]?.url;
+              const sizeInfo = item.sizeandprice?.[0];
+
+              return (
+                <div
+                  key={item._id}
+                  className="flex gap-4 border rounded-lg p-4 items-start bg-gray-50 dark:bg-gray-800"
+                >
+                  {/* 🖼 Image */}
+                  <div className="w-24 h-24 flex-shrink-0 border rounded overflow-hidden bg-white">
+                    {coverImage ? (
+                      <img
+                        src={coverImage}
+                        alt={productColor?.productColorName}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+                        No Image
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 📦 Details */}
+                  <div className="flex-1 text-sm space-y-1">
+                    <p className="font-semibold">
+                      {product?.productName} – {productColor?.productColorName}
+                    </p>
+
+                    <p className="text-gray-500">
+                      Color:{" "}
+                      <span className="font-medium">{productColor?.color}</span>
+                    </p>
+
+                    <p className="text-gray-500">
+                      Size:{" "}
+                      <span className="font-medium">{sizeInfo?.size}</span>
+                    </p>
+
+                    <p className="text-gray-500">
+                      Quantity:{" "}
+                      <span className="font-medium">{item.quantity}</span>
+                    </p>
+                    <p className="text-gray-500">Price: ₹{item.sizeandprice[0]?.offerPrice?.toLocaleString("en-IN")}</p>
+                  </div>
+
+                  {/* 💰 Price */}
+                  <div className="text-sm text-right space-y-1">
+                    <p>Total Price: ₹{item.price.toLocaleString("en-IN")}</p>
+                    {/* <p className="font-semibold">
+              Total: ₹{(item.price * item.quantity).toLocaleString("en-IN")}
+            </p> */}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
         {/* 🔹 Price Breakdown (Always Visible) */}
         <div
@@ -197,9 +276,7 @@ function OrderViewCard({ orderId, onClose }) {
               <span>
                 {isCancelled ? "Original Order Amount" : "Total Payable"}
               </span>
-              <span>
-                ₹{order.totalPayableAmount.toLocaleString("en-IN")}
-              </span>
+              <span>₹{order.totalPayableAmount.toLocaleString("en-IN")}</span>
             </div>
           </div>
         </div>
@@ -228,7 +305,6 @@ function OrderViewCard({ orderId, onClose }) {
               "Shipped",
               "Out for Delivery",
               "Delivered",
-              "Cancelled",
             ]}
             editable={!isDeliveryLocked}
           />

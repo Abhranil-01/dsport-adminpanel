@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 
-export const socket = io(import.meta.env.VITE_PUBLIC_SOCKET_URL, {
+export const socket = io("https://www.dsportdb.online", {
+  transports: ["websocket"], // 🔥 REQUIRED
   withCredentials: true,
   autoConnect: true,
-  transports: ["polling", "websocket"], // needed for Vercel
 });

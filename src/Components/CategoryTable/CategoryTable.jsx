@@ -140,13 +140,16 @@ function CategoryTable({ data, error, isLoading }) {
       {/* ================= POPUP ================= */}
       {(deletePopup.isDelete || deletePopup.loader) && (
         <>
-          {deletePopup.isDelete && (
-            <Popup
-              description={`Are you sure you want to delete "${deletePopup.categoryName}"? This will also delete its subcategories and products.`}
-              onClick={() => handelDeleteCategory(deletePopup.categoryId)}
-              setDeletePopup={setDeletePopup}
-            />
-          )}
+       {deletePopup.isDelete && (
+  <Popup
+    description={`Are you sure you want to delete "${deletePopup.categoryName}"? This will also delete its subcategories and products.`}
+    onConfirm={() => handelDeleteCategory(deletePopup.categoryId)}
+    onClose={() =>
+      setDeletePopup((prev) => ({ ...prev, isDelete: false }))
+    }
+  />
+)}
+
           {deletePopup.loader && <LoaderBox />}
         </>
       )}

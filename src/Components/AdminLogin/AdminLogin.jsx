@@ -53,7 +53,7 @@ function AdminLogin() {
       );
 
       toast.success("Admin logged in successfully");
-      navigate("/categories", { replace: true });
+      navigate("/", { replace: true });
     } catch (err) {
       toast.error(err?.data?.message || "Login failed");
     }

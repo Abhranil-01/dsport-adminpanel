@@ -35,7 +35,7 @@ function App() {
           {/* 🔐 ADMIN PROTECTED ROUTES */}
           <Route element={<AdminAuthGuard />}>
             <Route path="/" element={<Layout />}>
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="/" element={<Dashboard />} />
               <Route path="categories" element={<Categories />} />
               <Route path="subCategories" element={<SubCategories />} />
               <Route path="products" element={<Products />} />

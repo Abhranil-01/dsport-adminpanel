@@ -13,7 +13,7 @@ console.log(data);
   const role = data?.data?.role;
 
   if (role !== "superadmin") {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;

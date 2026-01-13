@@ -21,6 +21,8 @@ function AddAdminModal({ onClose }) {
       toast.success("Admin created successfully");
       onClose();
     } catch (err) {
+      console.log(err);
+      
       toast.error(err?.data?.message || "Failed to create admin");
     }
   };

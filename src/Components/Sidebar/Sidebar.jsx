@@ -32,7 +32,7 @@ function Sidebar() {
   const role = admin?.role; // "admin" | "superadmin"
 
   const menuItems = [
-    { name: "Dashboard", path: "/dashboard", icon: faHouse },
+    { name: "Dashboard", path: "/", icon: faHouse },
 
     // 👑 SUPER ADMIN ONLY
     {

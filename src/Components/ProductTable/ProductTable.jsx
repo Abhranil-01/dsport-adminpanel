@@ -28,31 +28,33 @@ function ProductTable({ data, error, isLoading }) {
 
   const [productId, setProductId] = useState("");
 
-  const handelDeleteSubCategory = async (id) => {
-    // Step 1: Show loader
-    setDeletePopup({ loader: true, isDelete: false });
+const handelDeleteProduct = async (id) => {
+  setDeletePopup((prev) => ({
+    ...prev,
+    loader: true,
+    isDelete: false,
+  }));
 
-    // Step 2: Wait 5 seconds before performing deletion
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    if (id) {
-      const res = await deleteProduct(id);
+  const res = await deleteProduct(id);
 
-      // Step 3: Wait additional 1.5 seconds to keep loader
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+  await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // Step 4: Hide loader
-      setDeletePopup({ loader: false });
+  setDeletePopup({
+    isDelete: false,
+    ProductName: "",
+    productId: "",
+    loader: false,
+  });
 
-      // Step 5: Show toast after loader disappears
-      if (res.error) {
-        toast.error(res.error?.data?.errors || "Something went wrong");
-      } else {
-        toast.success("Product deleted successfully");
-        console.log(res);
-      }
-    }
-  };
+  if (res.error) {
+    toast.error(res.error?.data?.errors || "Something went wrong");
+  } else {
+    toast.success("Product deleted successfully");
+  }
+};
+
   return (
     <>
       {showForm && (
@@ -147,19 +149,24 @@ function ProductTable({ data, error, isLoading }) {
   </table>
 </div>
 
-      {(deletePopup.isDelete || deletePopup.loader) && (
-        <div className="w-full">
-          {deletePopup.isDelete && (
-            <Popup
-              description={`Are you sure to delete "${deletePopup.ProductName}" Product`}
-              categoryDetails={deletePopup}
-              onClick={() => handelDeleteSubCategory(deletePopup.productId)}
-              setDeletePopup={setDeletePopup}
-            />
-          )}
-          {deletePopup.loader && <LoaderBox />}
-        </div>
-      )}
+   {deletePopup.isDelete && (
+  <Popup
+    description={`Are you sure to delete "${deletePopup.ProductName}" product?`}
+    onConfirm={() =>
+      handelDeleteProduct(deletePopup.productId)
+    }
+    onClose={() =>
+      setDeletePopup({
+        isDelete: false,
+        ProductName: "",
+        productId: "",
+        loader: false,
+      })
+    }
+  />
+)}
+{deletePopup.loader && <LoaderBox />}
+
     </>
   );
 }

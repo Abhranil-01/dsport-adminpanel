@@ -8,6 +8,9 @@ import {
   IndianRupee,
   Truck,
   XCircle,
+  Clock,
+  Wallet,
+  CreditCard,
 } from "lucide-react";
 
 import {
@@ -43,9 +46,7 @@ function Dashboard() {
   const orders = ordersData?.data || [];
 
   /* ================= CALCULATIONS ================= */
-  const totalAdmins = admins.filter(
-    (admin) => admin.role === "admin"
-  ).length;
+  const totalAdmins = admins.filter((admin) => admin.role === "admin").length;
 
   const totalSuperAdmins = admins.filter(
     (admin) => admin.role === "superadmin"
@@ -53,19 +54,31 @@ function Dashboard() {
 
   const totalSales = orders.reduce(
     (sum, order) =>
-      order.paymentStatus === "PAID" &&
-      order.deliveryStatus === "DELIVERED"
+      order.paymentStatus === "Paid" && order.deliveryStatus === "Delivered"
         ? sum + order.totalPayableAmount
         : sum,
     0
   );
 
   const deliveredOrders = orders.filter(
-    (o) => o.deliveryStatus === "DELIVERED"
+    (o) => o.deliveryStatus === "Delivered"
   ).length;
 
   const cancelledOrders = orders.filter(
-    (o) => o.orderStatus === "CANCELLED"
+    (o) => o.orderStatus === "Cancelled"
+  ).length;
+  /* ================= EXTRA ORDER STATS ================= */
+
+  // Pending orders (not delivered & not cancelled)
+  const pendingOrders = orders.filter(
+    (o) => o.orderStatus === "Active" && o.deliveryStatus !== "Delivered"
+  ).length;
+
+  // Payment mode counts
+  const codOrders = orders.filter((o) => o.paymentMode === "COD").length;
+
+  const razorpayOrders = orders.filter(
+    (o) => o.paymentMode === "Razorpay"
   ).length;
 
   /* ================= DASHBOARD STATS ================= */
@@ -108,7 +121,7 @@ function Dashboard() {
     },
     {
       title: "Total Sales",
-      value: `₹ ${totalSales}`,
+      value: `₹ ${totalSales.toLocaleString("en-IN")}`,
       icon: <IndianRupee />,
       color: "bg-emerald-600",
     },
@@ -117,6 +130,25 @@ function Dashboard() {
       value: deliveredOrders,
       icon: <Truck />,
       color: "bg-teal-600",
+    },
+
+    {
+      title: "Pending Orders",
+      value: pendingOrders,
+      icon: <Clock />,
+      color: "bg-yellow-600",
+    },
+    {
+      title: "COD Orders",
+      value: codOrders,
+      icon: <Wallet />,
+      color: "bg-orange-600",
+    },
+    {
+      title: "Razorpay Orders",
+      value: razorpayOrders,
+      icon: <CreditCard />,
+      color: "bg-pink-600",
     },
     {
       title: "Cancelled Orders",
@@ -129,9 +161,7 @@ function Dashboard() {
   /* ================= UI ================= */
   return (
     <div className="sm:ml-45 min-h-screen p-6 dark:bg-gray-900 transition-all">
-      <h1 className="text-2xl font-bold mb-6 dark:text-white">
-        Dashboard
-      </h1>
+      <h1 className="text-2xl font-bold mb-6 dark:text-white">Dashboard</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((item, index) => (
@@ -150,9 +180,7 @@ function Dashboard() {
                 </h2>
               </div>
 
-              <div
-                className={`${item.color} text-white p-3 rounded-full`}
-              >
+              <div className={`${item.color} text-white p-3 rounded-full`}>
                 {item.icon}
               </div>
             </div>

@@ -150,6 +150,37 @@ function OrderViewCard({ orderId, onClose }) {
             Total Amount: ₹{order.totalPayableAmount.toLocaleString("en-IN")}
           </div>
         </div>
+                {order?.address && (
+          <div className="mb-6 border rounded-lg p-4 text-sm bg-gray-50 dark:bg-gray-800">
+            <h3 className="font-semibold text-base mb-3">
+              Shipping Address
+            </h3>
+
+            <div className="space-y-1">
+              <p className="font-medium">
+                {order?.address[0]?.name} ({order?.address[0]?.addressName})
+              </p>
+
+              <p>{order?.address[0]?.address}</p>
+
+              <p>
+                {order?.address[0]?.city}, {order?.address[0]?.state} -{" "}
+                {order?.address[0]?.pincode}
+              </p>
+
+              <p>{order?.address[0]?.country}</p>
+
+              <p>
+                Phone: {order?.address[0]?.phone}
+                {order?.address[0]?.altPhone && ` / ${order?.address[0]?.altPhone}`}
+              </p>
+
+              <p>Email: {order?.address[0]?.email}</p>
+            </div>
+          </div>
+        )}
+
+
 
         {/* 🔴 Cancelled Notice */}
         {isCancelled && (
@@ -224,6 +255,7 @@ function OrderViewCard({ orderId, onClose }) {
             })}
           </div>
         </div>
+        
 
         {/* 🔹 Price Breakdown (Always Visible) */}
         <div

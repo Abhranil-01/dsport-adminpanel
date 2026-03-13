@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { use } from "react";
 
 export const fetchDataFromApi = createApi({
   reducerPath: "api",
@@ -346,6 +347,14 @@ getColorWiseProductById: builder.query({
       }),
       providesTags: ["Reviews"],
     }),
+generateDescription: builder.mutation({
+  query: (prompt) => ({
+    url: "/generate-description",
+    method: "POST",
+    body: { prompt },
+  }),
+}),
+
   }),
 });
 export const {
@@ -390,5 +399,7 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useGetAllReviewsQuery,
-  useGetReviewsColorWiseProductsQuery
+  useGetReviewsColorWiseProductsQuery,
+
+  useGenerateDescriptionMutation,
 } = fetchDataFromApi;

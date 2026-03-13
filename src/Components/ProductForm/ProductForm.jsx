@@ -12,13 +12,14 @@ import { toast } from "react-toastify";
 import TextArea from "../TextArea/TextArea";
 import MultipleImageUploadBox from "../MultipleImageUploadBox/MultipleImageUploadBox";
 import OptionBox from "../OptionBox/OptionBox";
+import AIDescriptionModal from "../AiDescriptionModal/AiDescriptionModal";
 
 function ProductForm({ setShowForm }) {
   const [product, setProduct] = useState({
     productName: "",
     productSubCategory: "",
   });
-
+const [showAIModal, setShowAIModal] = useState(false);
   const [colors, setColors] = useState([
     {
       productColorName: "",
@@ -43,6 +44,15 @@ function ProductForm({ setShowForm }) {
   const [activeColorTab, setActiveColorTab] = useState(0);
   const [createProduct] = useCreateProductMutation();
   const { data, error, isLoading } = useGetSubCategoriesQuery();
+  const handleUseDescription = (text) => {
+  setColors((prev) => {
+    const newColors = [...prev];
+    newColors[activeColorTab].productDescription = text;
+    return newColors;
+  });
+
+  setShowAIModal(false);
+};
   const handleProductChange = useCallback((name, id) => {
     setProduct((prev) => ({
       ...prev,
@@ -320,7 +330,13 @@ if (actualPrice && offerPercentage) {
   };
 
   return (
-    <div
+    <>
+    <AIDescriptionModal
+  isOpen={showAIModal}
+  onClose={() => setShowAIModal(false)}
+  onUse={handleUseDescription}
+/>
+      <div
       className="relative top-0 left-0 w-full   bg-opacity-50 z-50"
       style={{ background: "rgba(36, 35, 35, 0.301)" }}
     >
@@ -436,13 +452,26 @@ if (actualPrice && offerPercentage) {
                  
                   </div>
 
-                  <TextArea
-                    label="Description"
-                    name="productDescription"
-                    value={colors[activeColorTab].productDescription}
-                    onChange={(e) => handleColorChange(activeColorTab, e)}
-                    editable={true}
-                  />
+              <div className="flex flex-col gap-2">
+  <div className="flex justify-between items-center">
+    <label className="font-medium">Description</label>
+
+    <button
+      type="button"
+      onClick={() => setShowAIModal(true)}
+      className="text-sm bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
+    >
+      ✨ Generate with AI
+    </button>
+  </div>
+
+  <TextArea
+    name="productDescription"
+    value={colors[activeColorTab].productDescription}
+    onChange={(e) => handleColorChange(activeColorTab, e)}
+    editable={true}
+  />
+</div>
 
                   <div className="flex items-center justify-around gap-3 w-[100%] h-[55vh] font-bold ">
                     <div className="h-[100%] w-[48%]  ">
@@ -625,6 +654,9 @@ if (actualPrice && offerPercentage) {
         </div>
       </div>
     </div>
+    
+    </>
+  
   );
 }
 

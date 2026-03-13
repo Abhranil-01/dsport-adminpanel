@@ -14,15 +14,25 @@ import TextArea from "../TextArea/TextArea";
 import WarningPopup from "../WarnningPopup/WarningPopup";
 import MultipleImageUploadBox from "./../MultipleImageUploadBox/MultipleImageUploadBox";
 import OptionBox from "../OptionBox/OptionBox";
+import AIDescriptionModal from "../AiDescriptionModal/AiDescriptionModal";
 
 function ProductViewCard({ setShowForm, productId }) {
   const [editProductDetails, setEditProductDetails] = useState(false);
   const [warningPopup, setWarningPopup] = useState(false);
   const [deletedColorIds, setDeletedColorIds] = useState([]);
+  const [showAIModal, setShowAIModal] = useState(false);
   const { data } = useGetProductByIdQuery(productId);
   const { data: subCategoriesData } = useGetSubCategoriesQuery();
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
+  const handleUseDescription = (text) => {
+  setColors((prev) => {
+    const newColors = [...prev];
+    newColors[activeColorTab].productDescription = text;
+    return newColors;
+  });
 
+  setShowAIModal(false);
+};
   const [product, setProduct] = useState({
     productName: "",
     productSubCategory: "",
@@ -454,6 +464,12 @@ const handleSizeChange = useCallback((colorIndex, sizeIndex, e) => {
   }, [colors, product, productId, updateProduct, asFile]);
 
   return (
+<>
+    <AIDescriptionModal
+  isOpen={showAIModal}
+  onClose={() => setShowAIModal(false)}
+  onUse={handleUseDescription}
+/>
     <div
       className="relative top-0 left-0 w-full   bg-opacity-50 z-50"
       style={{ background: "rgba(36, 35, 35, 0.301)" }}
@@ -571,13 +587,28 @@ const handleSizeChange = useCallback((colorIndex, sizeIndex, e) => {
                     </div>
                   </div>
 
-                  <TextArea
-                    label="Description"
-                    name="productDescription"
-                    value={colors[activeColorTab].productDescription}
-                    onChange={(e) => handleColorChange(activeColorTab, e)}
-                    editable={editProductDetails}
-                  />
+                       <div className="flex flex-col gap-2">
+           <div className="flex justify-between items-center">
+             <label className="font-medium">Description</label>
+         
+             <button
+               type="button"
+               onClick={() => setShowAIModal(true)}
+               className="text-sm bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!editProductDetails}
+             >
+               ✨ Generate with AI
+             </button>
+           </div>
+         
+           <TextArea
+             name="productDescription"
+             value={colors[activeColorTab].productDescription}
+             onChange={(e) => handleColorChange(activeColorTab, e)}
+             editable={true}
+           />
+         </div>
+         
 
                   <div className="flex items-center justify-around gap-3 w-[100%] h-[55vh] font-bold ">
                     <div className="h-[100%] w-[48%]  ">
@@ -789,6 +820,7 @@ const handleSizeChange = useCallback((colorIndex, sizeIndex, e) => {
       </div>
       <ToastContainer transition={Bounce} />
     </div>
+</>
   );
 }
 

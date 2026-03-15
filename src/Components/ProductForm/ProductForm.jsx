@@ -437,7 +437,7 @@ if (actualPrice && offerPercentage) {
                         required
                       />
                       </div>
-          `      
+          
                          <div>
                       <OptionBox
                         label="Gender"
@@ -447,7 +447,7 @@ if (actualPrice && offerPercentage) {
                         onChange={(e) => handleColorChange(activeColorTab, e)}
                         data={["No","Men","Women","Boys","Girls"]}
                       />
-                    </div>`
+                    </div>
                     </div>
                  
                   </div>
